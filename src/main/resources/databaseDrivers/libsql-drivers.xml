@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drivers>
-  <driver id="tursoremote" name="Turso Remote" driver-class="com.sangeethnandakumar.libsql.LibSqlDriver" dialect="SQLITE">
+  <driver id="tursoremote" name="Turso Remote" driver-class="com.sangeethnandakumar.libsql.LibSqlDriver" dialect="SQLITE" icon="META-INF/pluginIcon.svg">
     <url-template name="Turso Cloud" template="jdbc:libsql:https://{host}" default="true"/>
     <url-template name="Local" template="jdbc:libsql:{host::localhost}[:{port::8080}]"/>
     <option name="auto-sync" value="true"/>

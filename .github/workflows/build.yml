@@ -37,7 +37,7 @@ jobs:
         with:
           tag_name: "v1.0.${{ github.run_number }}"
           name: "Release v1.0.${{ github.run_number }}"
-          body: "Automated build of version 1.0.${{ github.run_number }} from branch `${{ github.ref_name }}`."
+          body_path: CHANGELOG.md
           draft: false
           prerelease: false
           files: build/distributions/*.zip
