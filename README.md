@@ -1,45 +1,90 @@
 # Turso in DataGrip
+<img width="413" height="121" alt="image" src="https://github.com/user-attachments/assets/934fc2a9-8c55-46c4-9455-be665300960b" />
+<img width="293" height="121" alt="image" src="https://github.com/user-attachments/assets/808edfe2-8ad9-4660-8ed7-2110bd98f370" />
 
 # dglibsqlplus
 
-> Is a DataGrip driver for **Turso Remote** with improved stability, compatibility, and bug fixes focusing specific only to DataGrip and Remote DB connections.
+> A JetBrains DataGrip driver for connecting to remote Turso databases.
 
-`dglibsqlplus` is a maintained by `Sangeeth Nandakumar` which is a fork of the original `datagrip-libsql` project.
-The primary goal is to provide **first-class support for Turso/libSQL Remote databases in JetBrains DataGrip**, while fixing bugs and improving compatibility with recent DataGrip versions.
+`dglibsqlplus` is a fork of `datagrip-libsql` to improve it and **provide the best possible Turso experience in JetBrains DataGrip**.
 
-## Why this fork?
-This fork focuses only on:
+This project is maintained by **Sangeeth Nandakumar** and focuses exclusively on improving the DataGrip integration through bug fixes, compatibility improvements.
 
-* ✅ Major bug fixes
-* ✅ Firstclass DataGrip support only (No support for any other IDEs)
-* ✅ Turso remote connections only (No support for SQLite files)
-* ✅ MIT Licensed
+- It **does not aim to be a general-purpose libSQL driver**.
+- Its only goal is to make connecting to **remote Turso databases** from **JetBrains DataGrip** feel like a native, first-class experience.
+- If a feature does not improve the DataGrip + Turso workflow, it is likely out of scope.
 
-The goal is simple: **make connecting to Turso from DataGrip feel like a native experience.**
+| ✅ In Scope | ❌ Out of Scope |
+|-------------|-----------------|
+| First-class JetBrains DataGrip support | General-purpose libSQL development |
+| Only Turso remote database connections | Anything other than Turso or libSQL specific |
+| Remote Turso connections & Bug fixes | Local SQLite databases |
+| Compatibility with newer DataGrip releases | Other JetBrains IDEs |
+| Stability and user experience improvements | Features unrelated to the DataGrip + Turso workflow |
 
 ---
 
-# Installation
+# How To Use This PlugIn
 
-The plugin is **not currently published on the JetBrains Marketplace**.
+## Installation
 
-## Install manually
+### 1. Download the plugin as ZIP file
 
-1. Download the latest ZIP file from the project's **GitHub Releases**.
-2. Open **DataGrip**.
-3. Go to:
+Download the latest plugin ZIP from the project's Releases page:
 
+https://github.com/sangeethnandakumar/dglibsqlplus/releases
+
+> **Do not extract the ZIP file.** DataGrip installs the plugin directly from the downloaded ZIP.
+
+---
+
+### 2. Install the plugin
+
+In **JetBrains DataGrip**, navigate to:
+
+**File → Settings → Plugins → ⚙️ (Gear Icon) → Install Plugin from Disk...**
+
+Select the downloaded ZIP file and complete the installation.
+
+---
+
+### 3. Restart DataGrip
+
+Restart DataGrip to activate the plugin.
+
+---
+
+### 4. Create a Turso connection
+
+Navigate to:
+
+**File → New → Data Source → Turso Remote**
+
+---
+
+### 5. Configure the connection
+
+Enter your Turso connection details in the **Host** field using the following format:
+
+```text
+<HOST>?authToken=<TOKEN>
 ```
-Settings / Preferences
-→ Plugins
-→ ⚙️ (Gear Icon)
-→ Install Plugin from Disk...
+
+Example:
+
+```text
+your-database.aws-ap-south-1.turso.io?authToken=eyJhbGciOi...
 ```
 
-4. Select the downloaded ZIP file.
-5. Restart DataGrip.
+> **Do not enter a username or password.**
+>
+> Authentication is handled entirely through the `authToken` provided in the Host field.
 
-After restarting, you can configure a **"Turso Remote"** connection.
+---
+
+### 6. Connect
+
+Click **Test Connection** (optional), then **OK** to start querying your remote Turso database from DataGrip.
 
 ---
 
