@@ -1,4 +1,4 @@
-package com.dotinc.libsql;
+package com.sangeethnandakumar.libsql;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -38,17 +38,59 @@ public class LibSqlConnection implements Connection {
     private final String baseUrl;
     private final String authToken;
     private final HttpClient httpClient;
+    private HttpClient directHttpClient;
     private final Gson gson;
     private boolean closed;
     private boolean autoCommit;
 
     public LibSqlConnection(String baseUrl, String authToken) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = normalizeUrl(baseUrl);
         this.authToken = authToken;
         this.httpClient = HttpClient.newHttpClient();
+        this.directHttpClient = null;
         this.gson = new Gson();
         this.closed = false;
         this.autoCommit = true;
+    }
+
+    private static String normalizeUrl(String url) {
+        if (url == null) {
+            return "";
+        }
+        String cleaned = url.trim();
+
+        // Check if there is an explicit http:// protocol
+        boolean isHttp = cleaned.startsWith("http://");
+
+        // Strip any protocol prefixes
+        cleaned = cleaned.replace("https://", "")
+                         .replace("http://", "")
+                         .replace("libsql://", "")
+                         .replace("wss://", "")
+                         .replace("ws://", "");
+
+        // Remove trailing slashes
+        while (cleaned.endsWith("/")) {
+            cleaned = cleaned.substring(0, cleaned.length() - 1);
+        }
+
+        // Determine if it should be http or https
+        // Default to http for localhost/127.0.0.1/local IPs unless https was explicitly requested
+        if (isHttp || cleaned.startsWith("localhost") || cleaned.startsWith("127.0.0.1")) {
+            return "http://" + cleaned;
+        } else {
+            return "https://" + cleaned;
+        }
+    }
+
+    private static boolean isDnsOrProxyError(Throwable t) {
+        if (t == null) return false;
+        if (t instanceof java.nio.channels.UnresolvedAddressException || 
+            t instanceof java.net.UnknownHostException ||
+            t instanceof java.net.ConnectException) {
+            return true;
+        }
+        return isDnsOrProxyError(t.getCause());
     }
 
     /**
@@ -93,10 +135,35 @@ public class LibSqlConnection implements Connection {
                 httpRequestBuilder.header("Authorization", "Bearer " + authToken);
             }
 
-            HttpResponse<String> response = httpClient.send(
-                    httpRequestBuilder.build(),
-                    HttpResponse.BodyHandlers.ofString()
-            );
+            HttpResponse<String> response;
+            try {
+                response = httpClient.send(
+                        httpRequestBuilder.build(),
+                        HttpResponse.BodyHandlers.ofString()
+                );
+            } catch (Exception e) {
+                if (isDnsOrProxyError(e)) {
+                    if (directHttpClient == null) {
+                        directHttpClient = HttpClient.newBuilder()
+                                .proxy(new java.net.ProxySelector() {
+                                    @Override
+                                    public java.util.List<java.net.Proxy> select(java.net.URI uri) {
+                                        return java.util.Collections.singletonList(java.net.Proxy.NO_PROXY);
+                                    }
+                                    @Override
+                                    public void connectFailed(java.net.URI uri, java.net.SocketAddress sa, java.io.IOException ioe) {
+                                    }
+                                })
+                                .build();
+                    }
+                    response = directHttpClient.send(
+                            httpRequestBuilder.build(),
+                            HttpResponse.BodyHandlers.ofString()
+                    );
+                } else {
+                    throw e;
+                }
+            }
 
             if (response.statusCode() != 200) {
                 throw new SQLException(
@@ -127,7 +194,7 @@ public class LibSqlConnection implements Connection {
         } catch (SQLException e) {
             throw e;
         } catch (Exception e) {
-            throw new SQLException("Failed to execute pipeline request: " + e.getMessage(), e);
+            throw new SQLException("Failed to execute pipeline request to [" + baseUrl + "/v2/pipeline]: " + e.getMessage(), e);
         }
     }
 

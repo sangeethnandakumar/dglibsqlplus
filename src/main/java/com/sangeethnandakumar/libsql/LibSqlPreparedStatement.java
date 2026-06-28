@@ -1,4 +1,4 @@
-package com.dotinc.libsql;
+package com.sangeethnandakumar.libsql;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

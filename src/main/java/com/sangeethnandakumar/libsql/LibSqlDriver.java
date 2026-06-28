@@ -1,4 +1,4 @@
-package com.dotinc.libsql;
+package com.sangeethnandakumar.libsql;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;

@@ -79,4 +79,17 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
+
+    buildPlugin {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        dependsOn(fatDriverJar)
+        from(fatDriverJar) {
+            into("datagrip-driver-libsql")
+            rename { "libsql-driver.jar" }
+        }
+        from("src/main/resources/databaseDrivers/libsql-drivers.xml") {
+            into("datagrip-driver-libsql")
+            rename { "driver.xml" }
+        }
+    }
 }

@@ -3,7 +3,7 @@
     <name>DataGrip LibSQL Plus Driver</name>
     <vendor url="https://github.com/sangeethnandakumar/dglibsqlplus">Sangeeth Nandakumar</vendor>
     <description><![CDATA[
-    <h2>libSQL / Turso Database Driver for DataGrip</h2>
+    <h2>Turso Remote Database Driver for DataGrip</h2>
 
     <p>Native JDBC driver that connects DataGrip to <b>libSQL</b> and <b>Turso</b> databases
     via the HTTP pipeline API. No external dependencies — just install and connect.</p>
@@ -21,7 +21,7 @@
     <h3>Getting Started</h3>
     <ol>
         <li>Install this plugin and restart DataGrip</li>
-        <li>Add a new Data Source → select <b>libSQL / Turso</b></li>
+        <li>Add a new Data Source → select <b>Turso Remote</b></li>
         <li>Enter your Turso database host (e.g. <code>my-db.turso.io</code>)</li>
         <li>Paste your Turso JWT auth token in the <b>Password</b> field</li>
         <li>Test Connection</li>

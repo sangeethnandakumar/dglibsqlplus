@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "datagrip-libsql"
+rootProject.name = "dglibsqlplus"
