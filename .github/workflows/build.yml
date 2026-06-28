@@ -1,4 +1,4 @@
-name: Build IntelliJ Plugin
+name: Build and Release IntelliJ Plugin
 
 on:
   push:
@@ -9,8 +9,10 @@ on:
 
 jobs:
   build:
-    name: Build Plugin
+    name: Build & Release Plugin
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to create releases and upload assets
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -30,9 +32,14 @@ jobs:
           echo "Building plugin version $VERSION"
           ./gradlew clean buildPlugin -PpluginVersion=$VERSION
 
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release and Upload Asset
+        uses: softprops/action-gh-release@v2
         with:
-          name: dglibsqlplus-1.0.${{ github.run_number }}
-          path: build/distributions/*.zip
-          if-no-files-found: error
+          tag_name: "v1.0.${{ github.run_number }}"
+          name: "Release v1.0.${{ github.run_number }}"
+          body: "Automated build of version 1.0.${{ github.run_number }} from branch `${{ github.ref_name }}`."
+          draft: false
+          prerelease: false
+          files: build/distributions/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
