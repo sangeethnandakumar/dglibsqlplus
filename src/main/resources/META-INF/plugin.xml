@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>com.dotinc.datagrip-libsql</id>
-    <name>libSQL / Turso</name>
-    <vendor email="hello@dot-inc.com" url="https://github.com/dot-inc/datagrip-libsql">dot-inc</vendor>
+    <id>com.sangeethnandakumar.dglibsqlplus</id>
+    <name>DataGrip LibSQL Plus Driver</name>
+    <vendor url="https://github.com/sangeethnandakumar/dglibsqlplus">Sangeeth Nandakumar</vendor>
     <description><![CDATA[
     <h2>libSQL / Turso Database Driver for DataGrip</h2>
 
@@ -34,8 +34,8 @@
         <li>Local libSQL instances</li>
     </ul>
 
-    <p>Source code: <a href="https://github.com/dot-inc/datagrip-libsql">github.com/dot-inc/datagrip-libsql</a></p>
-    <p>Report issues: <a href="https://github.com/dot-inc/datagrip-libsql/issues">GitHub Issues</a></p>
+    <p>Source code: <a href="https://github.com/sangeethnandakumar/dglibsqlplus">github.com/sangeethnandakumar/dglibsqlplus</a></p>
+    <p>Report issues: <a href="https://github.com/sangeethnandakumar/dglibsqlplus/issues">GitHub Issues</a></p>
     ]]></description>
     <change-notes><![CDATA[
     <b>1.0.0</b>

@@ -54,7 +54,7 @@ tasks {
         dependsOn(fatDriverJar)
         doLast {
             val sandboxDir = defaultDestinationDirectory.get().asFile
-            val pluginDir = sandboxDir.resolve("datagrip-libsql")
+            val pluginDir = sandboxDir.resolve("dglibsqlplus")
             val targetDir = pluginDir.resolve("datagrip-driver-libsql")
             targetDir.mkdirs()
             // Copy the fat driver JAR (includes Gson)
